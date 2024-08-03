@@ -1,9 +1,37 @@
 import { Post, User, Comment } from "../database/models";
 
-class UserController {
+class PostController {
   static async getPosts(req, res) {
     try {
       const posts = await Post.findAll({
+        include: [
+          {
+            model: User,
+            as: "author",
+          },
+          {
+            model: Comment,
+            as: "comments",
+            include: {
+              model: User,
+              as: "author",
+            },
+          },
+        ],
+      });
+      res.json(posts);
+    } catch (error) {
+        console.log(error);
+      return res.status(500).json({ message: "Server Error" });
+    }
+  }
+  static async getBelongPosts(req, res) {
+    try {
+      const userId = req.user.id;
+      const posts = await Post.findAll({
+        where: {
+          userId: userId,
+        },
         include: [
           {
             model: User,
@@ -68,11 +96,9 @@ class UserController {
       // Check if the uploaded file is an image
       const validImageTypes = ["image/jpeg", "image/png", "image/gif"]; // Add other valid image MIME types if necessary
       if (!validImageTypes.includes(image.mimetype)) {
-        return res
-          .status(400)
-          .json({
-            message: "Invalid image type. Only JPEG, PNG, and GIF are allowed.",
-          });
+        return res.status(400).json({
+          message: "Invalid image type. Only JPEG, PNG, and GIF are allowed.",
+        });
       }
 
       const imageUrl = image ? image.path : null;
@@ -113,7 +139,7 @@ class UserController {
       post.title = title || post.title;
       post.content = content || post.content;
       if (image) {
-        post.imageUrl = image.path;
+        post.image = image.path;
       }
 
       await post.save();
@@ -137,10 +163,9 @@ class UserController {
         message: "Post deleted successfully",
       });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({ message: "Server Error" });
     }
   }
 }
 
-export default UserController;
+export default PostController;

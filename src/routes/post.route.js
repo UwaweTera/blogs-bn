@@ -14,6 +14,7 @@ const route = Router();
 const upload = multer({ storage });
 
 route.get("/", PostController.getPosts);
+route.get("/user", extractToken, PostController.getBelongPosts);
 route.get("/:id", IsPostExist, PostController.getPost);
 
 route.post(
@@ -32,7 +33,13 @@ route.put(
   PostController.updatePost
 );
 
-route.delete("/:id", IsPostExist, IsBelongPost, PostController.deletePost);
+route.delete(
+  "/:id",
+  extractToken,
+  IsPostExist,
+  IsBelongPost,
+  PostController.deletePost
+);
 
 // on comments
 

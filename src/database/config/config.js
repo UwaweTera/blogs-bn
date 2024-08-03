@@ -1,32 +1,48 @@
-require('dotenv').config()
+require("dotenv").config();
 
 const {
-  PRODUCTION_DATABASE,
-  DEV_DATABASE,
+  POSTGRES_URL,
+  POSTGRES_PRISMA_URL,
+  POSTGRES_URL_NO_SSL,
+  POSTGRES_URL_NON_POOLING,
+  POSTGRES_USER,
+  POSTGRES_HOST,
+  POSTGRES_PASSWORD,
+  POSTGRES_DATABASE,
   DATABASE_USER,
   DATABASE_PASSWORD,
   DATABASE_HOST,
   DATABASE_PORT,
-  TEST_DATABASE,
-  DATABASE_NAME
+  DATABASE_NAME,
+  NODE_ENV,
 } = process.env;
-
-// console.log('db url: ', DEV_DATABASE)
-
+// console.log("NODE_ENV", NODE_ENV);
 module.exports = {
   development: {
-    username: DATABASE_USER,
-    password: DATABASE_PASSWORD,
-    database: DATABASE_NAME,
-    host: DATABASE_HOST,
-    dialect: 'postgres',
+    username: DATABASE_USER || POSTGRES_USER,
+    password: DATABASE_PASSWORD || POSTGRES_PASSWORD,
+    database: DATABASE_NAME || POSTGRES_DATABASE,
+    host: DATABASE_HOST || POSTGRES_HOST,
+    dialect: "postgres",
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
   },
   test: {
-    url: process.env.TEST_DATABASE,
-    dialect: 'postgres',
+    url: POSTGRES_URL, // Use the appropriate test database URL
+    dialect: "postgres",
   },
   production: {
-    url: process.env.PRODUCTION_DATABASE,
-    dialect: 'postgres',
+    url: POSTGRES_URL,
+    dialect: "postgres",
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
   },
-}
+};
