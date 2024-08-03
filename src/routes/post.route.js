@@ -1,6 +1,6 @@
 import { Router } from "express";
 import PostController from "../controllers/PostController";
-import extractToken from "../middlewares/ExtractToken";
+import extractToken from "../middlewares/extractToken";
 import { storage } from "../utils/cloudinary";
 import multer from "multer";
 import IsPostExist from "../middlewares/isPostExist";
