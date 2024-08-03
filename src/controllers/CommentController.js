@@ -15,7 +15,7 @@ class CommentController {
       });
       res.json(comments);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return res.status(500).json({ message: "Server Error" });
     }
   }
@@ -60,7 +60,7 @@ class CommentController {
         comment,
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return res.status(500).json({ message: "Server Error" });
     }
   }
@@ -74,7 +74,7 @@ class CommentController {
         message: "Comment deleted successfully",
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return res.status(500).json({ message: "Server Error" });
     }
   }

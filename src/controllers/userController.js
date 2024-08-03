@@ -55,7 +55,7 @@ class UserController {
         .status(200)
         .json({ status: 200, user: tokenUser, accessToken: token });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return res.status(500).json({ status: 500, error: "Server error" });
     }
   }
