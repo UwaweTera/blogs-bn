@@ -36,7 +36,10 @@ module.exports = {
     dialect: "postgres",
   },
   production: {
-    url: POSTGRES_URL,
+    username: DATABASE_USER || POSTGRES_USER,
+    password: DATABASE_PASSWORD || POSTGRES_PASSWORD,
+    database: DATABASE_NAME || POSTGRES_DATABASE,
+    host: DATABASE_HOST || POSTGRES_HOST,
     dialect: "postgres",
     dialectOptions: {
       ssl: {
