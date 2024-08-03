@@ -5,7 +5,7 @@
   "scripts": {
     "build": "babel src -d dist",
     "start": "babel-node ./src/index.js",
-    "dev": "better-npm-run dev"
+    "dev": "nodemon --exec babel-node ./src/index.js"
   },
   "betterScripts": {
     "dev": {
