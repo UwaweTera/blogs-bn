@@ -10,7 +10,7 @@ const options = {
     version: "1.0.0",
     description: "Blog application API Documentation",
   },
-  basePath: "/api",
+  basePath: "/api/v1",
   security: [
     {
       bearerAuth: [],
@@ -121,41 +121,6 @@ const options = {
           },
         },
       },
-    },
-
-    "/api/v1/posts/{id}": {
-      get: {
-        tags: ["Posts"],
-        summary: "Get Post",
-        description: "Get One posts",
-        operationId: "getPost",
-        security: [],
-        parameters: [
-          {
-            name: "id",
-            in: "path",
-            description: "Post id",
-            required: true,
-            schema: {
-              type: "string",
-            },
-          },
-        ],
-        responses: {
-          200: {
-            description: "Posts",
-          },
-          404: {
-            description: "Posts not found",
-          },
-          500: {
-            description: "Something went wrong",
-          },
-        },
-      },
-    },
-
-    "/api/v1/posts": {
       post: {
         tags: ["Posts"],
         summary: "Add a Post",
@@ -201,7 +166,37 @@ const options = {
         },
       },
     },
+
     "/api/v1/posts/{id}": {
+      get: {
+        tags: ["Posts"],
+        summary: "Get Post",
+        description: "Get One posts",
+        operationId: "getPost",
+        security: [],
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            description: "Post id",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: "Posts",
+          },
+          404: {
+            description: "Posts not found",
+          },
+          500: {
+            description: "Something went wrong",
+          },
+        },
+      },
       put: {
         tags: ["Posts"],
         summary: "Edit a Post",
@@ -257,9 +252,6 @@ const options = {
           },
         },
       },
-    },
-
-    "/api/v1/posts/{id}": {
       delete: {
         tags: ["Posts"],
         summary: "Delete Post",
@@ -292,7 +284,82 @@ const options = {
         },
       },
     },
-    "/api/v1/posts/comments/{id}": {
+
+    "/api/v1/posts/{id}/comments": {
+      get: {
+        tags: ["Comments"],
+        summary: "get Comment",
+        description: "get comments belong to post",
+        operationId: "getComments",
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            description: "post id",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: "get comments",
+          },
+          404: {
+            description: "post not exist",
+          },
+          500: {
+            description: "Something went wrong",
+          },
+        },
+      },
+      post: {
+        tags: ["Comments"],
+        summary: "post Comment",
+        description: "post comments belong to post",
+        operationId: "postComments",
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            description: "post id",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          content: {
+            "application/json": {
+              example: {
+                message: "nice",
+              },
+              required: true,
+            },
+            "multipart/form-data": {
+              schema: {
+                $ref: "#/components/schemas/User",
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: " commented on post",
+          },
+          401: {
+            description: "unauthorization",
+          },
+          404: {
+            description: "post not exist",
+          },
+          500: {
+            description: "Something went wrong",
+          },
+        },
+      },
       put: {
         tags: ["Comments"],
         summary: "Update Comment",
@@ -302,13 +369,28 @@ const options = {
           {
             name: "id",
             in: "path",
-            description: "Comment id",
+            description: "post id",
             required: true,
             schema: {
               type: "string",
             },
           },
         ],
+        requestBody: {
+          content: {
+            "application/json": {
+              example: {
+                message: "nice",
+              },
+              required: true,
+            },
+            "multipart/form-data": {
+              schema: {
+                $ref: "#/components/schemas/User",
+              },
+            },
+          },
+        },
         responses: {
           200: {
             description: "Update comment",
