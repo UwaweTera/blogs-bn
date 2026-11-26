@@ -11,5 +11,5 @@ app.use("/api/v1", routes);
 
 // Sync database and start server
 app.listen(port, () => {
-  console.log(`Server is running on ${port}`);
+  console.log(`Server successfully running on ${port}`);
 });
